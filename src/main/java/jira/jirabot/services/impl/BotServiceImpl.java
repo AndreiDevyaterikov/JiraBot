@@ -17,10 +17,10 @@ public class BotServiceImpl implements BotService {
         var priorityName = priority != null ? priority.getName() : Constants.WITHOUT_PRIORITY;
 
         var assignee = issue.getAssignee();
-        var assigneeName = assignee != null ? assignee.getName() : Constants.WITHOUT_ASSIGNEE;
+        var assigneeName = assignee != null ? assignee.getDisplayName() : Constants.WITHOUT_ASSIGNEE;
 
         var reporter = issue.getReporter();
-        var reporterName = reporter != null ? reporter.getName() : Constants.WITHOUT_REPORTER;
+        var reporterName = reporter != null ? reporter.getDisplayName(): Constants.WITHOUT_REPORTER;
 
         issueMessage.append(Constants.PROJECT_NAME).append(issue.getProject().getName())
                 .append("\n")
