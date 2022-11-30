@@ -4,7 +4,7 @@ import jira.jirabot.configs.BotConfig;
 import jira.jirabot.constatns.Constants;
 import jira.jirabot.services.BotService;
 import jira.jirabot.services.JiraService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,12 +15,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final BotConfig botConfig;
     private final JiraService jiraService;
     private final BotService botService;
+
+    boolean findIssueByKey;
 
     @Override
     public String getBotUsername() {
@@ -36,23 +38,32 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         var message = update.getMessage();
         var chatId = message.getChatId();
-
-        switch (message.getText()) {
-            case "/start" -> createHelloMessage(message);
-            case "/my_issues" -> createAllMyIssuesMessage(chatId);
-            default -> createDefaultMessage(chatId);
+        if (message.isCommand()) {
+            switch (message.getText()) {
+                case "/start" -> createHelloMessage(message);
+                case "/my_issues" -> createAllMyIssuesMessage(chatId);
+                case "/find_issue_by_key" -> {
+                    findIssueByKey = true;
+                    sendMessage(chatId, "Введите номер задачи");
+                }
+                default -> createDefaultMessage(chatId);
+            }
+        } else {
+            if (findIssueByKey) {
+                var issueKey = update.getMessage().getText();
+                var issue = jiraService.getIssueByKey(issueKey);
+                var issueMessage = botService.createIssueMessage(issue);
+                findIssueByKey = false;
+                sendMessage(chatId, issueMessage);
+            }
         }
     }
 
     private void createAllMyIssuesMessage(Long chatId) {
         var issues = jiraService.getAllIssues();
         for (var issue : issues) {
-            try {
-                var issueMessage = botService.createIssueMessage(issue);
-                sendMessage(chatId, issueMessage);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
+            var issueMessage = botService.createIssueMessage(issue);
+            sendMessage(chatId, issueMessage);
         }
     }
 
@@ -62,24 +73,25 @@ public class TelegramBot extends TelegramLongPollingBot {
         var helloMessage = Constants.HELLO + user.getFirstName() + " " + user.getLastName();
         try {
             execute(botConfig.getBotCommands());
-            sendMessage(chatId, helloMessage);
-        } catch (TelegramApiException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void createDefaultMessage(Long chatId) {
-        try {
-            sendMessage(chatId, Constants.DONT_FIND_COMMAND);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+        sendMessage(chatId, helloMessage);
     }
 
-    private void sendMessage(long chatId, String text) throws TelegramApiException {
+    private void createDefaultMessage(Long chatId) {
+        sendMessage(chatId, Constants.DONT_FIND_COMMAND);
+    }
+
+    private void sendMessage(long chatId, String text) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(text);
-        execute(message);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

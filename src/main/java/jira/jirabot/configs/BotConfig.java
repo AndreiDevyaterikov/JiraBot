@@ -21,7 +21,8 @@ public class BotConfig {
     public SetMyCommands getBotCommands(){
         SetMyCommands setMyCommands = new SetMyCommands();
         setMyCommands.setCommands(List.of(
-                new BotCommand("/my_issues", "Список моих задач")
+                new BotCommand("/my_issues", "Список моих задач"),
+                new BotCommand("/find_issue_by_key", "Найти задачу по номеру")
         ));
         return setMyCommands;
     }

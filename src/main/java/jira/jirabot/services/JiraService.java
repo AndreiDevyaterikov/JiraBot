@@ -10,4 +10,12 @@ public interface JiraService {
      * @return {@link Issue} Список задач
      */
     Iterable<Issue> getAllIssues();
+
+    /**
+     * Поиск задачи по номеру
+     *
+     * @param issueKey Номер задачи
+     * @return {@link Issue} Найденная задача
+     */
+    Issue getIssueByKey(String issueKey);
 }

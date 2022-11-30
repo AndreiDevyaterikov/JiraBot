@@ -14,6 +14,15 @@ public class JiraServiceImpl implements JiraService {
 
     @Override
     public Iterable<Issue> getAllIssues() {
-        return jiraClient.getSearchClient().searchJql("assignee in (currentuser())").claim().getIssues();
+        return jiraClient.getSearchClient()
+                .searchJql("assignee in (currentuser())").claim()
+                .getIssues();
+    }
+
+    @Override
+    public Issue getIssueByKey(String issueKey) {
+        return jiraClient.getIssueClient()
+                .getIssue(issueKey)
+                .claim();
     }
 }
