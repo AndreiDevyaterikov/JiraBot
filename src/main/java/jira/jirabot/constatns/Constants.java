@@ -20,5 +20,5 @@ public class Constants {
     public final static String ISSUE_SUMMARY = "Название: ";
     public final static String ISSUE_DESCRIPTION = "Описание: ";
     public final static String ISSUE_REPORTER = "Создатель: ";
-    public final static String ISSUE_ASSIGNEE = "Ответветственный: ";
+    public final static String ISSUE_ASSIGNEE = "Ответственный: ";
 }
