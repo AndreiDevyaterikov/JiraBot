@@ -1,3 +1,7 @@
 telegram:
-  token: "5893107674:AAFpnLVWcNJSW5XzDRSwXQFdAvA4OaTBdio"
-  name: "MyJiraNotificationBot"
+  token:
+  name:
+jira:
+  login:
+  password:
+  jiraUrl:

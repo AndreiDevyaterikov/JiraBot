@@ -2,32 +2,20 @@ package jira.jirabot.client;
 
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
-import lombok.Getter;
-import lombok.Setter;
+import jira.jirabot.configs.JiraClientConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.net.URI;
 
-@Getter
-@Setter
+@Configuration
 public class JiraClient {
-    private String login;
-    private String password;
-    private String jiraUrl;
-    private JiraRestClient restClient;
 
-    public JiraClient(String login, String password, String jiraUrl) {
-        this.login = login;
-        this.password = password;
-        this.jiraUrl = jiraUrl;
-        this.restClient = getJiraRestClient();
-    }
-
-    private JiraRestClient getJiraRestClient() {
+    @Bean
+    public JiraRestClient getJiraRestClient(@Autowired JiraClientConfig jiraClientConfig) {
+        var uri = URI.create(jiraClientConfig.getJiraUrl());
         return new AsynchronousJiraRestClientFactory()
-                .createWithBasicHttpAuthentication(getJiraUri(), this.login, this.password);
-    }
-
-    private URI getJiraUri() {
-        return URI.create(this.jiraUrl);
+                .createWithBasicHttpAuthentication(uri, jiraClientConfig.getLogin(), jiraClientConfig.getPassword());
     }
 }
