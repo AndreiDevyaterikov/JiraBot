@@ -9,7 +9,7 @@ public class JiraBotApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JiraBotApplication.class, args);
-        test();
+
     }
 
     public static void test() {
