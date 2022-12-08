@@ -1,4 +1,4 @@
-package jira.jirabot.services;
+package jirabot.services;
 
 import com.atlassian.jira.rest.client.api.domain.Issue;
 

@@ -1,8 +1,8 @@
-package jira.jirabot.services.impl;
+package jirabot.services.impl;
 
 import com.atlassian.jira.rest.client.api.domain.Issue;
-import jira.jirabot.constatns.Constants;
-import jira.jirabot.services.BotService;
+import jirabot.constatns.Constants;
+import jirabot.services.BotService;
 import org.springframework.stereotype.Service;
 
 @Service

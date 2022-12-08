@@ -1,4 +1,4 @@
-package jira.jirabot.constatns;
+package jirabot.constatns;
 
 public class Constants {
     public final static String HELLO = "Привет, ";

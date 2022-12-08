@@ -1,9 +1,9 @@
-package jira.jirabot.bot;
+package jirabot.bot;
 
-import jira.jirabot.configs.BotConfig;
-import jira.jirabot.constatns.Constants;
-import jira.jirabot.services.BotService;
-import jira.jirabot.services.JiraService;
+import jirabot.configs.BotConfig;
+import jirabot.constatns.Constants;
+import jirabot.services.BotService;
+import jirabot.services.JiraService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
-package jira.jirabot.client;
+package jirabot.client;
 
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
-import jira.jirabot.configs.JiraClientConfig;
+import jirabot.configs.JiraClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

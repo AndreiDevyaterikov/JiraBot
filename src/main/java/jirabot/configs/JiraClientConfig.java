@@ -1,4 +1,4 @@
-package jira.jirabot.configs;
+package jirabot.configs;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
